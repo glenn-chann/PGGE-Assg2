@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 namespace PGGE
 {
@@ -10,6 +11,8 @@ namespace PGGE
     {
         public class ConnectionController : MonoBehaviourPunCallbacks
         {
+            AudioManager audioManager;
+
             const string gameVersion = "1";
 
             public byte maxPlayersPerRoom = 3;
@@ -26,6 +29,7 @@ namespace PGGE
                 // the master client and all clients in the same 
                 // room sync their level automatically
                 PhotonNetwork.AutomaticallySyncScene = true;
+                audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
             }
 
 
@@ -37,6 +41,8 @@ namespace PGGE
 
             public void Connect()
             {
+                //play button audio
+                audioManager.source.PlayOneShot(audioManager.join);
                 mBtnJoinRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
                 mConnectionProgress.SetActive(true);
@@ -97,6 +103,15 @@ namespace PGGE
                     Debug.Log("We load the default room for multiplayer");
                     PhotonNetwork.LoadLevel("MultiplayerMap00");
                 }
+            }
+
+            //function for the back button
+            public void OnBack()
+            {
+                //play button audio
+                audioManager.source.PlayOneShot(audioManager.back);
+                //load the previous scene 
+                SceneManager.LoadScene(Level.PreviousLevel);
             }
         }
     }
