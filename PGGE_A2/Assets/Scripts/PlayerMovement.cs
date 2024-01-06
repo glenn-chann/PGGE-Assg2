@@ -121,20 +121,22 @@ public class PlayerMovement : MonoBehaviour
         mVelocity.y += Mathf.Sqrt(mJumpHeight * -2f * mGravity);
     }
 
-    private Vector3 HalfHeight;
     private Vector3 tempHeight;
     void Crouch()
     {
+        //set the bool in the animator to the crouch variable
         mAnimator.SetBool("Crouch", crouch);
+
+        //if the player is crouching 
         if (crouch)
         {
+            //reduce the CameraPositionOffset's y value by half 
             tempHeight = CameraConstants.CameraPositionOffset;
-            HalfHeight = tempHeight;
-            HalfHeight.y *= 0.5f;
-            CameraConstants.CameraPositionOffset = HalfHeight;
+            CameraConstants.CameraPositionOffset = new Vector3(tempHeight.x,tempHeight.y/2,tempHeight.z);
         }
         else
         {
+            //change the CameraPositionOffset to the normal height
             CameraConstants.CameraPositionOffset = tempHeight;
         }
     }

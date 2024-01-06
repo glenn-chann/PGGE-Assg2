@@ -56,38 +56,34 @@ public class Player : MonoBehaviour
         // For Student ----------------------------------------------------//
         // Implement the logic of button clicks for shooting. 
         //-----------------------------------------------------------------//
+        
+        //Iterate through the mAttackButtons list using a for loop
+        for(int i = 0; i < mAttackButtons.Length; i++)
+        {
+            //check if the button of the current index i+1 is pressed
+            if (Input.GetButton("Fire" + (i+1)))
+            {
+                //if pressed reset all the attack buttons and set the
+                //current button to true
+                ResetAllAttackButtons();
+                mAttackButtons[i] = true;
+            }
+            else
+            {
+                //if not pressed, set the current button to false
+                mAttackButtons[i] = false;
+            }
+        }
+        
+    }
 
-        if (Input.GetButton("Fire1"))
+    void ResetAllAttackButtons()
+    {
+        //iterate through the mAttackButtons list turning all the Booleans to
+        //false
+        for (int i = 0;i < mAttackButtons.Length; i++)
         {
-            mAttackButtons[0] = true;
-            mAttackButtons[1] = false;
-            mAttackButtons[2] = false;
-        }
-        else
-        {
-            mAttackButtons[0] = false;
-        }
-
-        if (Input.GetButton("Fire2"))
-        {
-            mAttackButtons[0] = false;
-            mAttackButtons[1] = true;
-            mAttackButtons[2] = false;
-        }
-        else
-        {
-            mAttackButtons[1] = false;
-        }
-
-        if (Input.GetButton("Fire3"))
-        {
-            mAttackButtons[0] = false;
-            mAttackButtons[1] = false;
-            mAttackButtons[2] = true;
-        }
-        else
-        {
-            mAttackButtons[2] = false;
+            mAttackButtons[i] = false;
         }
     }
 
