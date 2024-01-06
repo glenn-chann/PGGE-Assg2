@@ -65,12 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            jump = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            jump = false;
+            Jump();//call jump function if player presses space
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -107,11 +102,6 @@ public class PlayerMovement : MonoBehaviour
         mAnimator.SetFloat("PosX", 0);
         mAnimator.SetFloat("PosZ", vInput * speed / (2.0f * mWalkSpeed));
 
-        if (jump)
-        {
-            Jump();
-            jump = false;
-        }
         ApplyGravity();
     }
 
@@ -136,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            //change the CameraPositionOffset to the normal height
+            //change the CameraPositionOffset to the normal height.
             CameraConstants.CameraPositionOffset = tempHeight;
         }
     }
