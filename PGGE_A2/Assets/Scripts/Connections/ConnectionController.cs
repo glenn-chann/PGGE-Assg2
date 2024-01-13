@@ -17,13 +17,13 @@ namespace PGGE
 
             public byte maxPlayersPerRoom = 3;
 
-            public string serverNameToJoin = "test";
+            public string roomNameToJoin = "test";
 
             public GameObject mConnectionProgress;
             public GameObject mBtnJoinRoom;
             public GameObject mInpPlayerName;
-            public GameObject mCreateServer;
-            public GameObject mServerList;
+            public GameObject mCreateRoom;
+            public GameObject mRoomList;
             public GameObject mBtnChooseRoom;
 
             RoomInfo biggestRoom;
@@ -44,8 +44,8 @@ namespace PGGE
             void Start()
             {
                 mConnectionProgress.SetActive(false);
-                mServerList.SetActive(false);
-                mCreateServer.SetActive(false);
+                mRoomList.SetActive(false);
+                mCreateRoom.SetActive(false);
             }
 
             public void Connect()
@@ -55,7 +55,7 @@ namespace PGGE
                 mBtnJoinRoom.SetActive(false);
                 mBtnChooseRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
-                mServerList.SetActive(false);
+                mRoomList.SetActive(false);
                 mConnectionProgress.SetActive(true);
 
                 // we check if we are connected or not, we join if we are, 
@@ -126,7 +126,7 @@ namespace PGGE
                 // Failed to join a random room.
                 // This may happen if no room exists or 
                 // they are all full. In either case, we create a new room.
-                PhotonNetwork.CreateRoom(serverNameToJoin,
+                PhotonNetwork.CreateRoom(roomNameToJoin,
                     new RoomOptions
                     {
                         MaxPlayers = maxPlayersPerRoom,
@@ -166,15 +166,15 @@ namespace PGGE
                     SceneManager.LoadScene(Level.PreviousLevel);
                 }
                 //if we are in create server screen
-                else if (mCreateServer.activeSelf)
+                else if (mCreateRoom.activeSelf)
                 {
-                    mCreateServer.SetActive(false);
-                    mServerList.SetActive(true);
+                    mCreateRoom.SetActive(false);
+                    mRoomList.SetActive(true);
                 }
                 else
                 {
                     //deactivate server list and reactivate all other UI elements 
-                    mServerList.SetActive(false);
+                    mRoomList.SetActive(false);
                     mBtnChooseRoom.SetActive(true);
                     mBtnJoinRoom.SetActive(true);
                     mInpPlayerName.SetActive(true);
@@ -186,7 +186,7 @@ namespace PGGE
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
                 //activate server list and deactivate all other UI elements 
-                mServerList.SetActive(true);
+                mRoomList.SetActive(true);
                 mBtnJoinRoom.SetActive(false);
                 mBtnChooseRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
@@ -197,8 +197,8 @@ namespace PGGE
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
                 //activate create server screen and deactivate server list
-                mCreateServer.SetActive(true);
-                mServerList.SetActive(false);
+                mCreateRoom.SetActive(true);
+                mRoomList.SetActive(false);
                 Debug.Log("Pressed");
             }
 
@@ -206,7 +206,7 @@ namespace PGGE
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
-                JoinOrCreateNewRoom(serverNameToJoin);
+                JoinOrCreateNewRoom(roomNameToJoin);
             }
         }
     }
