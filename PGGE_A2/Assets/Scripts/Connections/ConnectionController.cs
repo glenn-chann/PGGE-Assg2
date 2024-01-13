@@ -181,7 +181,7 @@ namespace PGGE
                 }
             }
 
-            public void ChooseServerBtn()
+            public void ChooseRoomBtn()
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
@@ -192,7 +192,7 @@ namespace PGGE
                 mInpPlayerName.SetActive(false);
             }
 
-            public void ToCreateServerScreenBtn()
+            public void ToCreateRoomScreenBtn()
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
@@ -202,7 +202,7 @@ namespace PGGE
                 Debug.Log("Pressed");
             }
 
-            public void OnCreateServerBtnPressed()
+            public void OnCreateRoomBtnPressed()
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);

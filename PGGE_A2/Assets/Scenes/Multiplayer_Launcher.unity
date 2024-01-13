@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Create Server
+  m_Text: Create Room
 --- !u!222 &82184110
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1603296482}
   m_HandleRect: {fileID: 1603296481}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -362,12 +362,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayersPerRoom: 4
-  serverNameToJoin: test
+  roomNameToJoin: test
   mConnectionProgress: {fileID: 1904367824}
   mBtnJoinRoom: {fileID: 326169118}
   mInpPlayerName: {fileID: 421955836}
-  mCreateServer: {fileID: 556003337}
-  mServerList: {fileID: 1686842917}
+  mCreateRoom: {fileID: 556003337}
+  mRoomList: {fileID: 1686842917}
   mBtnChooseRoom: {fileID: 1431921030}
 --- !u!4 &117140713
 Transform:
@@ -409,8 +409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 117140712}
-  serverListParent: {fileID: 590617629}
-  serverBtnPrefab: {fileID: 5342796763412566056, guid: bbffb27a6e494b849a49614fe5a01501, type: 3}
+  roomListParent: {fileID: 590617629}
+  roomBtnPrefab: {fileID: 5342796763412566056, guid: bbffb27a6e494b849a49614fe5a01501, type: 3}
 --- !u!1 &228847638
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 304188882}
   - component: {fileID: 304188881}
   m_Layer: 5
-  m_Name: Btn_CreateServer
+  m_Name: Btn_CreateRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,7 +632,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 117140712}
         m_TargetAssemblyTypeName: PGGE.Multiplayer.ConnectionController, Assembly-CSharp
-        m_MethodName: OnCreateServerBtnPressed
+        m_MethodName: OnCreateRoomBtnPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1137,7 +1137,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Choose a Server
+  m_Text: Choose a Room
 --- !u!222 &535293741
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1159,7 +1159,7 @@ GameObject:
   - component: {fileID: 556003339}
   - component: {fileID: 556003338}
   m_Layer: 5
-  m_Name: Create Server Screen
+  m_Name: Create Room Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1567,7 +1567,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 909200106}
   m_HandleRect: {fileID: 909200105}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1983,7 +1983,7 @@ GameObject:
   - component: {fileID: 1287193185}
   - component: {fileID: 1287193184}
   m_Layer: 5
-  m_Name: ScrlView_ServerList
+  m_Name: ScrlView_RoomList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2094,7 +2094,7 @@ GameObject:
   - component: {fileID: 1431921033}
   - component: {fileID: 1431921032}
   m_Layer: 5
-  m_Name: Btn_JoinServer
+  m_Name: Btn_JoinRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2167,7 +2167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 117140712}
         m_TargetAssemblyTypeName: PGGE.Multiplayer.ConnectionController, Assembly-CSharp
-        m_MethodName: ChooseServerBtn
+        m_MethodName: ChooseRoomBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2512,7 +2512,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter Server Name
+  m_Text: Enter Room Name
 --- !u!222 &1584718450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2961,7 +2961,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Join Random Server
+  m_Text: Join Random Room
 --- !u!222 &1732167000
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2983,7 +2983,7 @@ GameObject:
   - component: {fileID: 1780182361}
   - component: {fileID: 1780182360}
   m_Layer: 5
-  m_Name: Inp_ServerName
+  m_Name: Inp_RoomrName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3072,8 +3072,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 117140715}
-        m_TargetAssemblyTypeName: ServerList, Assembly-CSharp
-        m_MethodName: ChangeServerToCreateName
+        m_TargetAssemblyTypeName: RoomList, Assembly-CSharp
+        m_MethodName: ChangeRoomToCreateName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3259,7 +3259,7 @@ GameObject:
   - component: {fileID: 1907547026}
   - component: {fileID: 1907547025}
   m_Layer: 5
-  m_Name: Btn_createServer
+  m_Name: Btn_createRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3332,7 +3332,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 117140712}
         m_TargetAssemblyTypeName: PGGE.Multiplayer.ConnectionController, Assembly-CSharp
-        m_MethodName: ToCreateServerScreenBtn
+        m_MethodName: ToCreateRoomScreenBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3438,7 +3438,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Create a Server
+  m_text: Create a Room
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
