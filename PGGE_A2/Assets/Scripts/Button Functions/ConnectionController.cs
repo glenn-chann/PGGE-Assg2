@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using Photon.Pun.Demo.Cockpit.Forms;
 
 namespace PGGE
 {
@@ -17,9 +18,14 @@ namespace PGGE
 
             public byte maxPlayersPerRoom = 3;
 
+            public string serverNameToJoin = "test";
+
             public GameObject mConnectionProgress;
             public GameObject mBtnJoinRoom;
             public GameObject mInpPlayerName;
+            public GameObject mCreateServer;
+            public GameObject mServerList;
+            public GameObject mBtnChooseRoom;
 
             bool isConnecting = false;
 
@@ -37,6 +43,8 @@ namespace PGGE
             void Start()
             {
                 mConnectionProgress.SetActive(false);
+                mServerList.SetActive(false);
+                mCreateServer.SetActive(false);
             }
 
             public void Connect()
@@ -44,7 +52,9 @@ namespace PGGE
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
                 mBtnJoinRoom.SetActive(false);
+                mBtnChooseRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
+                mServerList.SetActive(false);
                 mConnectionProgress.SetActive(true);
 
                 // we check if we are connected or not, we join if we are, 
@@ -88,12 +98,13 @@ namespace PGGE
                 // Failed to join a random room.
                 // This may happen if no room exists or 
                 // they are all full. In either case, we create a new room.
-                PhotonNetwork.CreateRoom(null,
+                PhotonNetwork.CreateRoom(serverNameToJoin,
                     new RoomOptions
                     {
-                        MaxPlayers = maxPlayersPerRoom
-                    });
+                        MaxPlayers = maxPlayersPerRoom,
+                    }) ;
             }
+
 
             public override void OnJoinedRoom()
             {
@@ -110,8 +121,47 @@ namespace PGGE
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.back);
-                //load the previous scene 
-                SceneManager.LoadScene(Level.PreviousLevel);
+                //if we are not in the server list 
+                if (mInpPlayerName.activeSelf)
+                {
+                    //load the previous scene 
+                    SceneManager.LoadScene(Level.PreviousLevel);
+                }
+                //if we are in create server screen
+                else if (mCreateServer.activeSelf)
+                {
+                    mCreateServer.SetActive(false);
+                    mServerList.SetActive(true);
+                }
+                else
+                {
+                    //deactivate server list and reactivate all other UI elements 
+                    mServerList.SetActive(false);
+                    mBtnChooseRoom.SetActive(true);
+                    mBtnJoinRoom.SetActive(true);
+                    mInpPlayerName.SetActive(true);
+                }
+            }
+
+            public void ChooseServerBtn()
+            {
+                //play button audio
+                audioManager.source.PlayOneShot(audioManager.join);
+                //activate server list and deactivate all other UI elements 
+                mServerList.SetActive(true);
+                mBtnJoinRoom.SetActive(false);
+                mBtnChooseRoom.SetActive(false);
+                mInpPlayerName.SetActive(false);
+            }
+
+            public void ToCreateServerScreenBtn()
+            {
+                //play button audio
+                audioManager.source.PlayOneShot(audioManager.join);
+                //activate create server screen and deactivate server list
+                mCreateServer.SetActive(true);
+                mServerList.SetActive(false);
+                Debug.Log("Pressed");
             }
         }
     }
