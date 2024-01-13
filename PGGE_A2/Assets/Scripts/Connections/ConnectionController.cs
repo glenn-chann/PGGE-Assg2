@@ -12,13 +12,17 @@ namespace PGGE
         public class ConnectionController : MonoBehaviourPunCallbacks
         {
             AudioManager audioManager;
-
+            
+            //set a constant game version
             const string gameVersion = "1";
 
-            public byte maxPlayersPerRoom = 3;
+            //maximum players allowed per room
+            public byte maxPlayersPerRoom = 4;
 
+            //name of the room to join or create
             public string roomNameToJoin = "test";
 
+            //UI elements to activate/deactivate
             public GameObject mConnectionProgress;
             public GameObject mBtnJoinRoom;
             public GameObject mInpPlayerName;
@@ -26,6 +30,7 @@ namespace PGGE
             public GameObject mRoomList;
             public GameObject mBtnChooseRoom;
 
+            //the room with the most amount of players
             RoomInfo biggestRoom;
 
             bool isConnecting = false;
@@ -36,6 +41,7 @@ namespace PGGE
                 // the master client and all clients in the same 
                 // room sync their level automatically
                 PhotonNetwork.AutomaticallySyncScene = true;
+                //finding the object that has the audio script 
                 audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
             }
 
@@ -43,6 +49,7 @@ namespace PGGE
             // Start is called before the first frame update
             void Start()
             {
+                //deactivate UI that is not needed
                 mConnectionProgress.SetActive(false);
                 mRoomList.SetActive(false);
                 mCreateRoom.SetActive(false);
@@ -52,70 +59,87 @@ namespace PGGE
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
+
+                //deactive UI elements 
                 mBtnJoinRoom.SetActive(false);
                 mBtnChooseRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
                 mRoomList.SetActive(false);
+
+                //Activate loading text
                 mConnectionProgress.SetActive(true);
 
                 // we check if we are connected or not, we join if we are, 
-                // else we initiate the connection to the server.
+                // else we initiate the connection to the room.
                 if (PhotonNetwork.IsConnected)
                 {
-                    // Attempt joining a random Room. 
-                    // If it fails, we'll get notified in 
-                    // OnJoinRandomFailed() and we'll create one.
+                    //join the room with the most amount of players 
                     PhotonNetwork.JoinRoom(biggestRoom.Name);
                 }
                 else
                 {
-                    // Connect to Photon Online Server.
+                    // Connect to Photon Online room.
                     isConnecting = PhotonNetwork.ConnectUsingSettings();
                     PhotonNetwork.GameVersion = gameVersion;
                 }
             }
 
-
+            //called when connected to the Photon Master room
             public override void OnConnectedToMaster()
             {
                 if (isConnecting)
                 {
                     Debug.Log("OnConnectedToMaster() was called by PUN");
+
+                    //Join the room with the most amount of players 
                     PhotonNetwork.JoinRoom(biggestRoom.Name);
                 }
             }
 
+            //called when the room list is updated
             public override void OnRoomListUpdate(List<RoomInfo> roomList)
             {
-                // Room list has been updated
-                // Iterate through the rooms and filter them based on your criteria
-
+                //set the biggest room to the one with the most amount of players
                 biggestRoom = GetRoomWithMostPlayers(roomList);
             }
 
+            //filter through the list to return the room with the most players 
             public RoomInfo GetRoomWithMostPlayers(List<RoomInfo> roomList)
             {
+                //initialising variables 
                 RoomInfo targetRoom = null;
                 int maxPlayerCount = 0;
 
+                //Iterate through all rooms
                 foreach (RoomInfo room in roomList)
                 {
-                    if (room.PlayerCount < room.MaxPlayers && room.PlayerCount > maxPlayerCount)
+                    //if room is 1 player short of max players
+                    if (room.PlayerCount == maxPlayersPerRoom - 1)
                     {
+                        //return this room
+                        return room;
+                    }
+                    //if room is not full and the room has more players then the room with the previos highest player count
+                    else if (room.PlayerCount < room.MaxPlayers && room.PlayerCount > maxPlayerCount)
+                    {
+                        //change target room to this room
                         targetRoom = room;
+                        //update the maxPlayerCount
                         maxPlayerCount = room.PlayerCount;
                     }
                 }
-
+                //return the room with the most players 
                 return targetRoom;
             }
 
+            //called when disconnected from Photon
             public override void OnDisconnected(DisconnectCause cause)
             {
                 Debug.LogWarningFormat("OnDisconnected() was called by PUN with reason {0}", cause);
                 isConnecting = false;
             }
 
+            //called when failed to join room
             public override void OnJoinRandomFailed(short returnCode, string message)
             {
                 Debug.Log("OnJoinRandomFailed() was called by PUN. " +
@@ -133,6 +157,7 @@ namespace PGGE
                     }) ;
             }
 
+            //join or create a specific room
             public void JoinOrCreateNewRoom(string name)
             {
                 PhotonNetwork.JoinOrCreateRoom(name,
@@ -142,7 +167,7 @@ namespace PGGE
                     },null);
             }
 
-
+            //called when you join a room
             public override void OnJoinedRoom()
             {
                 Debug.Log("OnJoinedRoom() called by PUN. Client is in a room.");
@@ -159,13 +184,13 @@ namespace PGGE
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.back);
-                //if we are not in the server list 
+                //if we are not in the room list 
                 if (mInpPlayerName.activeSelf)
                 {
                     //load the previous scene 
                     SceneManager.LoadScene(Level.PreviousLevel);
                 }
-                //if we are in create server screen
+                //if we are in create room screen
                 else if (mCreateRoom.activeSelf)
                 {
                     mCreateRoom.SetActive(false);
@@ -173,7 +198,7 @@ namespace PGGE
                 }
                 else
                 {
-                    //deactivate server list and reactivate all other UI elements 
+                    //deactivate room list and reactivate all other UI elements 
                     mRoomList.SetActive(false);
                     mBtnChooseRoom.SetActive(true);
                     mBtnJoinRoom.SetActive(true);
@@ -181,27 +206,30 @@ namespace PGGE
                 }
             }
 
+            //button that leads to the room list screen
             public void ChooseRoomBtn()
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
-                //activate server list and deactivate all other UI elements 
+                //activate room list and deactivate all other UI elements 
                 mRoomList.SetActive(true);
                 mBtnJoinRoom.SetActive(false);
                 mBtnChooseRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
             }
 
+            //button that leads to the create room screen
             public void ToCreateRoomScreenBtn()
             {
                 //play button audio
                 audioManager.source.PlayOneShot(audioManager.join);
-                //activate create server screen and deactivate server list
+                //activate create room screen and deactivate room list
                 mCreateRoom.SetActive(true);
                 mRoomList.SetActive(false);
                 Debug.Log("Pressed");
             }
 
+            //create room screen
             public void OnCreateRoomBtnPressed()
             {
                 //play button audio

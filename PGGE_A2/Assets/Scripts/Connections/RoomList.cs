@@ -8,26 +8,32 @@ using PGGE.Multiplayer;
 
 public class RoomList : MonoBehaviourPunCallbacks
 {
+    //Singleton pattern 
     public static RoomList Instance;
 
+    //reference to connectioncontroller script 
     public ConnectionController controller;
 
+    //UI elements 
     public Transform roomListParent;
     public GameObject roomBtnPrefab;
 
+    //list to store cached room information
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
 
+    //method to change room name to join 
     public void ChangeRoomToCreateName(string name)
     {
         controller.roomNameToJoin = name;
     }
 
+    //singleton pattern 
     private void Awake()
     {
         Instance = this;
     }
 
-    // Start is called before the first frame update
+    // Coroutine to connect to photon
     IEnumerator Start()
     {
         //if we are in a room, leave
@@ -37,24 +43,27 @@ public class RoomList : MonoBehaviourPunCallbacks
             PhotonNetwork.Disconnect();
         }
 
+        //wait until disconnect then connect using settings
         yield return new WaitUntil(() => !PhotonNetwork.IsConnected);
-
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    //called when connected to the photon master server
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
 
+        //join the lobby
         PhotonNetwork.JoinLobby();
     }
    
+    //called when the room list is updated
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         //if this is the first time we call it 
         if (cachedRoomList.Count <= 0) 
         {
-            //set cachedserverlists to the room list
+            //set cachedroomlists to the room list
             cachedRoomList = roomList;
         }
         else
@@ -68,6 +77,7 @@ public class RoomList : MonoBehaviourPunCallbacks
                     {
                         List<RoomInfo> newList = cachedRoomList;
 
+                        //update the changes to the cachedRoomList
                         if (room.RemovedFromList)
                         {
                             newList.Remove(newList[i]);
@@ -82,29 +92,37 @@ public class RoomList : MonoBehaviourPunCallbacks
                 }
             }
         }
+        //update the server list UI
         UpdateUI();
     }
 
+    //function to update the server list UI
     void UpdateUI()
     {
+        //destroy all Room buttons
         foreach (Transform RoomBtn in roomListParent)
         {
             Destroy(RoomBtn.gameObject);
         }
 
+        //create room buttons based on the cachedRoomList
         foreach (var room in cachedRoomList)
         {
             GameObject roomButton = Instantiate(roomBtnPrefab, roomListParent);
 
+            //set name and player count
             roomButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
             roomButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/4";
 
+            //changed color of player count based on if its full or not
             roomButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = room.PlayerCount == room.MaxPlayers ? Color.red : Color.green;
 
+            //set the room name so the button works
             roomButton.GetComponent<RoomBtnFunction>().RoomName = room.Name;
         }
     }
 
+    //function to join room using a room name
     public void JoinRoomByName(string name)
     {
         controller.roomNameToJoin = name;
