@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
-using Photon.Pun.Demo.Cockpit.Forms;
 
 namespace PGGE
 {
@@ -26,6 +25,8 @@ namespace PGGE
             public GameObject mCreateServer;
             public GameObject mServerList;
             public GameObject mBtnChooseRoom;
+
+            RoomInfo biggestRoom;
 
             bool isConnecting = false;
 
@@ -64,7 +65,7 @@ namespace PGGE
                     // Attempt joining a random Room. 
                     // If it fails, we'll get notified in 
                     // OnJoinRandomFailed() and we'll create one.
-                    PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
+                    PhotonNetwork.JoinRoom(biggestRoom.Name);
                 }
                 else
                 {
@@ -80,8 +81,33 @@ namespace PGGE
                 if (isConnecting)
                 {
                     Debug.Log("OnConnectedToMaster() was called by PUN");
-                    PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
+                    PhotonNetwork.JoinRoom(biggestRoom.Name);
                 }
+            }
+
+            public override void OnRoomListUpdate(List<RoomInfo> roomList)
+            {
+                // Room list has been updated
+                // Iterate through the rooms and filter them based on your criteria
+
+                biggestRoom = GetRoomWithMostPlayers(roomList);
+            }
+
+            public RoomInfo GetRoomWithMostPlayers(List<RoomInfo> roomList)
+            {
+                RoomInfo targetRoom = null;
+                int maxPlayerCount = 0;
+
+                foreach (RoomInfo room in roomList)
+                {
+                    if (room.PlayerCount < room.MaxPlayers && room.PlayerCount > maxPlayerCount)
+                    {
+                        targetRoom = room;
+                        maxPlayerCount = room.PlayerCount;
+                    }
+                }
+
+                return targetRoom;
             }
 
             public override void OnDisconnected(DisconnectCause cause)

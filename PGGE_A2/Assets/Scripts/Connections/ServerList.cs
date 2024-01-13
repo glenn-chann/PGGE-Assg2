@@ -63,7 +63,7 @@ public class ServerList : MonoBehaviourPunCallbacks
             {
                 for(int i = 0; i <cachedServerList.Count; i++)
                 {
-                    //if the server is the same as the server was returned as changed 
+                    //if the server is the same as the server that was returned as changed 
                     if (cachedServerList[i].Name == server.Name)
                     {
                         List<RoomInfo> newList = cachedServerList;
