@@ -226,7 +226,6 @@ namespace PGGE
                 //activate create room screen and deactivate room list
                 mCreateRoom.SetActive(true);
                 mRoomList.SetActive(false);
-                Debug.Log("Pressed");
             }
 
             //create room screen

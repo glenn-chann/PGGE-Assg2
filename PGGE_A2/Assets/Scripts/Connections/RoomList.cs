@@ -54,7 +54,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
 
         //join the lobby
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby();  
     }
    
     //called when the room list is updated
