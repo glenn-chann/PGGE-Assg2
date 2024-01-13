@@ -366,7 +366,7 @@ MonoBehaviour:
   mConnectionProgress: {fileID: 1904367824}
   mBtnJoinRoom: {fileID: 326169118}
   mInpPlayerName: {fileID: 421955836}
-  mCreateServer: {fileID: 304188879}
+  mCreateServer: {fileID: 556003337}
   mServerList: {fileID: 1686842917}
   mBtnChooseRoom: {fileID: 1431921030}
 --- !u!4 &117140713
