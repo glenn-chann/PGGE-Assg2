@@ -17,6 +17,11 @@ public class ServerList : MonoBehaviourPunCallbacks
 
     private List<RoomInfo> cachedServerList = new List<RoomInfo>();
 
+    public void ChangeServerToCreateName(string name)
+    {
+        controller.serverNameToJoin = name;
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -94,6 +99,8 @@ public class ServerList : MonoBehaviourPunCallbacks
             serverButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = server.Name;
             serverButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = server.PlayerCount + "/4";
 
+            serverButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = server.PlayerCount == server.MaxPlayers ? Color.red : Color.green;
+
             serverButton.GetComponent<ServerBtnFunction>().ServerName = server.Name;
         }
     }
@@ -101,6 +108,7 @@ public class ServerList : MonoBehaviourPunCallbacks
     public void JoinRoomByName(string name)
     {
         controller.serverNameToJoin = name;
+        controller.JoinOrCreateNewRoom(name);
     }
 }
 

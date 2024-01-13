@@ -629,7 +629,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 304188882}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117140712}
+        m_TargetAssemblyTypeName: PGGE.Multiplayer.ConnectionController, Assembly-CSharp
+        m_MethodName: OnCreateServerBtnPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &304188882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,7 +1159,7 @@ GameObject:
   - component: {fileID: 556003339}
   - component: {fileID: 556003338}
   m_Layer: 5
-  m_Name: Create Room Screen
+  m_Name: Create Server Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2679,7 +2691,7 @@ GameObject:
   - component: {fileID: 1686842920}
   - component: {fileID: 1686842919}
   m_Layer: 5
-  m_Name: ChoosingRoom
+  m_Name: Choosing Server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3058,7 +3070,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117140715}
+        m_TargetAssemblyTypeName: ServerList, Assembly-CSharp
+        m_MethodName: ChangeServerToCreateName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}

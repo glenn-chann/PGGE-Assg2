@@ -64,7 +64,7 @@ namespace PGGE
                     // Attempt joining a random Room. 
                     // If it fails, we'll get notified in 
                     // OnJoinRandomFailed() and we'll create one.
-                    PhotonNetwork.JoinRandomRoom();
+                    PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
                 }
                 else
                 {
@@ -73,12 +73,14 @@ namespace PGGE
                     PhotonNetwork.GameVersion = gameVersion;
                 }
             }
+
+
             public override void OnConnectedToMaster()
             {
                 if (isConnecting)
                 {
                     Debug.Log("OnConnectedToMaster() was called by PUN");
-                    PhotonNetwork.JoinRandomRoom();
+                    PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
                 }
             }
 
@@ -105,10 +107,20 @@ namespace PGGE
                     }) ;
             }
 
+            public void JoinOrCreateNewRoom(string name)
+            {
+                PhotonNetwork.JoinOrCreateRoom(name,
+                    new RoomOptions
+                    {
+                        MaxPlayers = maxPlayersPerRoom,
+                    },null);
+            }
+
 
             public override void OnJoinedRoom()
             {
                 Debug.Log("OnJoinedRoom() called by PUN. Client is in a room.");
+                Debug.Log(PhotonNetwork.CurrentRoom.Name);
                 if (PhotonNetwork.IsMasterClient)
                 {
                     Debug.Log("We load the default room for multiplayer");
@@ -162,6 +174,13 @@ namespace PGGE
                 mCreateServer.SetActive(true);
                 mServerList.SetActive(false);
                 Debug.Log("Pressed");
+            }
+
+            public void OnCreateServerBtnPressed()
+            {
+                //play button audio
+                audioManager.source.PlayOneShot(audioManager.join);
+                JoinOrCreateNewRoom(serverNameToJoin);
             }
         }
     }
