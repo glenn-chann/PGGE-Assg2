@@ -270,10 +270,13 @@ public class FlockBehaviour : MonoBehaviour
           {
             for (int j = 0; j < mObstacles.Count; ++j)
             {
-              float dist = (
+              //distance checks using sqrMagnitude is faster then using normal magnitude as 
+              //magnitude has to do a sqaure root operation which is more expensive then multiplication.
+              //so we use sqrMagnitude and multiply the avoidance radius by itself instead. 
+              float sqrDist = (
                 mObstacles[j].transform.position -
-                autonomousList[i].transform.position).magnitude;
-              if (dist < mObstacles[j].AvoidanceRadius)
+                autonomousList[i].transform.position).sqrMagnitude;
+              if (sqrDist < mObstacles[j].AvoidanceRadius * mObstacles[j].AvoidanceRadius)
               {
                 Vector3 targetDirection = (
                   autonomousList[i].transform.position -
