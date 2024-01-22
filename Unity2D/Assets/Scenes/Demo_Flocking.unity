@@ -813,7 +813,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 150
+  orthographic size: 200
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1075,7 +1075,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 400, y: 225, z: 1}
+  m_LocalScale: {x: 400, y: 400, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   - {fileID: 281999220}
   - {fileID: 1148214724}
   Bounds: {fileID: 735960364}
-  TickDuration: 1
+  TickDuration: 0.05
   TickDurationSeparationEnemy: 0.01
   TickDurationRandom: 1
   BoidIncr: 300
