@@ -74,7 +74,11 @@ namespace PGGE
                 if (PhotonNetwork.IsConnected)
                 {
                     //join the room with the most amount of players 
-                    PhotonNetwork.JoinRoom(biggestRoom.Name);
+                    if (biggestRoom != null)
+                    {
+                        PhotonNetwork.JoinRoom(biggestRoom.Name);
+                        Debug.Log("Joined:" + biggestRoom.Name);
+                    }
                 }
                 else
                 {
@@ -90,9 +94,6 @@ namespace PGGE
                 if (isConnecting)
                 {
                     Debug.Log("OnConnectedToMaster() was called by PUN");
-
-                    //Join the room with the most amount of players 
-                    PhotonNetwork.JoinRoom(biggestRoom.Name);
                 }
             }
 
