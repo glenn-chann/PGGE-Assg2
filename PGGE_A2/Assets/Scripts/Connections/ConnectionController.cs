@@ -161,6 +161,7 @@ namespace PGGE
             //join or create a specific room
             public void JoinOrCreateNewRoom(string name)
             {
+                Debug.Log(name);
                 PhotonNetwork.JoinOrCreateRoom(name,
                     new RoomOptions
                     {
