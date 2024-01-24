@@ -79,6 +79,11 @@ namespace PGGE
                         PhotonNetwork.JoinRoom(biggestRoom.Name);
                         Debug.Log("Joined:" + biggestRoom.Name);
                     }
+                    else
+                    {
+                        //if biggest room is not set create a room
+                        JoinOrCreateNewRoom(roomNameToJoin);
+                    }
                 }
                 else
                 {
